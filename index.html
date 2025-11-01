@@ -47,7 +47,7 @@
     border:1px solid #00000012;
     border-radius:20px; box-shadow:0 10px 25px #0000001a;
   }
-  .bar{ display:flex; gap:14px; align-items:center; padding:12px 14px; flex-wrap:wrap; }
+  .bar{ display:flex; gap:0px; align-items:center; padding:12px 14px; flex-wrap:wrap; }
   .logo{
     display:flex; align-items:center; gap:10px; padding-right:10px; border-right:1px dashed #0002;
   }
@@ -100,6 +100,46 @@
     .wrap{ margin:10px auto }
     body:before{ display:none }
   }
+
+ 
+/* --- Mobile layout: 2 lines of filter buttons --- */
+@media (max-width: 600px) {
+  .bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search {
+    width: 92%;
+    min-width: auto;
+    margin-bottom: 8px;
+    flex: 1 1 24px;
+  }
+
+  .chips {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 per row = 2 lines for 6 buttons */
+    gap: 8px;
+    width: 100%;
+  }
+
+  .chip {
+    text-align: center;
+    padding: 3px 0;
+    font-size: 14px;
+    border-radius: 999px;
+  }
+
+  .wrap {
+    padding-top: 210px; 
+  }
+  .mob
+  {
+    margin-top: -4rem;
+  }
+}
+
+
 </style>
 </head>
 <body>
@@ -110,7 +150,6 @@
       <span class="leaf">🎋</span>
       <div>
         <div class="title">Illikkal Restaurant</div>
-        <div class="subtitle">Clean city • Sulthan Bathery</div>
       </div>
     </div>
 
@@ -133,8 +172,8 @@
 <main class="wrap" id="menu">
 
   <!-- Veg -->
-  <section data-section="veg">
-    <h2>Veg <span class="barline"></span></h2>
+  <section data-section="veg" class="mob">
+    <h2>Veg <span class="barline margine"></span></h2>
     <div class="grid">
       <div class="item" data-tags="veg snacks breakfast dosa"><span class="name">Masala Dosa</span><span class="tag veg">VEG</span></div>
       <div class="item" data-tags="veg breakfast dosa"><span class="name">Ghee Roast</span><span class="tag veg">VEG</span></div>
