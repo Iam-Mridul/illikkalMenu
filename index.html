@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Illikkal Restaurant — Menu</title>
+<style>
+  /* ===== Bamboo theme ===== */
+  :root{
+    --ink:#1f2a1e;
+    --leaf:#2f7d32;
+    --leaf-2:#7fbf63;
+    --bamboo:#e7d7a5;
+    --card:#ffffffee;
+    --accent:#ce8b2c;
+  }
+  /* Bamboo slats background */
+  body{
+    margin:0;
+    color:var(--ink);
+    font:16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+    background:
+      repeating-linear-gradient(90deg,
+        #e9dcb0 0 74px,
+        #e3d29b 74px 76px,
+        #e9dcb0 76px 150px),
+      linear-gradient(#f5f1df,#efe8c8);
+    min-height:100%;
+  }
+  /* Leafy top border */
+  body:before{
+    content:"";
+    position:fixed; inset:0 0 auto 0; height:70px; pointer-events:none;
+    background:
+      radial-gradient(60px 20px at 8% 50%, #8ad36a55, #0000),
+      radial-gradient(70px 24px at 20% 60%, #5aaa5555, #0000),
+      radial-gradient(60px 20px at 88% 50%, #8ad36a55, #0000),
+      radial-gradient(70px 24px at 76% 60%, #5aaa5555, #0000);
+    filter: blur(2px);
+  }
+
+  /* ===== Layout ===== */
+  .wrap{ max-width:1000px; margin:110px auto 64px; padding:0 18px; }
+  header{
+    position:fixed; inset:16px 16px auto 16px; z-index:30;
+    background:var(--card); backdrop-filter:saturate(120%) blur(6px);
+    border:1px solid #00000012;
+    border-radius:20px; box-shadow:0 10px 25px #0000001a;
+  }
+  .bar{ display:flex; gap:14px; align-items:center; padding:12px 14px; flex-wrap:wrap; }
+  .logo{
+    display:flex; align-items:center; gap:10px; padding-right:10px; border-right:1px dashed #0002;
+  }
+  .logo .leaf{ font-size:26px }
+  .title{ font-weight:800; letter-spacing:.4px }
+  .subtitle{ font-size:12px; color:#325438 }
+  .search{
+    display:flex; align-items:center; gap:8px; padding:8px 12px; border:1px solid #00000014;
+    border-radius:999px; background:#fff; min-width:250px; flex:1 1 220px;
+  }
+  .search input{ border:0; outline:0; width:100%; font-size:14px }
+  .chips{ display:flex; gap:8px; flex-wrap:wrap }
+  .chip{
+    padding:8px 12px; border-radius:999px; border:1px solid #00000018; background:#fff;
+    font-size:13px; cursor:pointer; user-select:none;
+  }
+  .chip.active{ background:var(--leaf); color:#fff; border-color:transparent }
+
+  /* ===== Sections ===== */
+  section{ margin:28px 0 }
+  h2{
+    display:flex; align-items:center; gap:10px; margin:0 0 12px;
+    font-size:22px;
+  }
+  h2 .barline{
+    flex:1; height:2px; background:linear-gradient(90deg,#0000, var(--leaf-2), #0000);
+    border-radius:2px;
+  }
+
+  .grid{
+    display:grid; gap:10px;
+    grid-template-columns: repeat( auto-fit, minmax(220px, 1fr) );
+  }
+  .item{
+    background:var(--card); border:1px solid #00000014; border-radius:14px;
+    padding:12px 14px; display:flex; justify-content:space-between; align-items:center;
+  }
+  .item .name{ font-weight:600 }
+  .tag{ font-size:11px; padding:4px 8px; border-radius:999px; border:1px dashed #0003 }
+  .veg{ color:#1b7f2a; border-color:#1b7f2a55; background:#eaffe6 }
+  .nonveg{ color:#9d2b2b; border-color:#9d2b2b55; background:#ffecec }
+
+  /* Footer */
+  footer{ text-align:center; color:#234; margin:26px 0 60px; font-size:13px }
+  .note{ font-size:12px; color:#3b5a39 }
+
+  /* Print-friendly */
+  @media print{
+    header{ position:static; box-shadow:none }
+    .wrap{ margin:10px auto }
+    body:before{ display:none }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <div class="logo">
+      <span class="leaf">🎋</span>
+      <div>
+        <div class="title">Illikkal Restaurant</div>
+        <div class="subtitle">Clean city • Sulthan Bathery</div>
+      </div>
+    </div>
+
+    <div class="search" role="search">
+      <span>🔎</span>
+      <input id="q" type="search" placeholder="Search dishes (e.g., dosa, beef, juice) …" />
+    </div>
+
+    <div class="chips" id="chips">
+      <div class="chip active" data-filter="all">All</div>
+      <div class="chip" data-filter="veg">Veg</div>
+      <div class="chip" data-filter="nonveg">Non-Veg</div>
+      <div class="chip" data-filter="snacks">Snacks</div>
+      <div class="chip" data-filter="drinks">Drinks</div>
+      <div class="chip" data-filter="specials">Specials</div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="menu">
+
+  <!-- Veg -->
+  <section data-section="veg">
+    <h2>Veg <span class="barline"></span></h2>
+    <div class="grid">
+      <div class="item" data-tags="veg snacks breakfast dosa"><span class="name">Masala Dosa</span><span class="tag veg">VEG</span></div>
+      <div class="item" data-tags="veg breakfast dosa"><span class="name">Ghee Roast</span><span class="tag veg">VEG</span></div>
+      <div class="item" data-tags="veg breakfast puttu"><span class="name">Puttu</span><span class="tag veg">VEG</span></div>
+      <div class="item" data-tags="veg breakfast poori"><span class="name">Poori</span><span class="tag veg">VEG</span></div>
+      <div class="item" data-tags="veg bread parotta"><span class="name">Porota</span><span class="tag veg">VEG</span></div>
+      <div class="item" data-tags="veg kappa tapioca"><span class="name">Kappa</span><span class="tag veg">VEG</span></div>
+      <div class="item" data-tags="nonveg dosa egg"><span class="name">Egg Dosha</span><span class="tag nonveg">NON-VEG</span></div>
+    </div>
+  </section>
+
+  <!-- Curries -->
+  <section data-section="curries">
+    <h2>Curries <span class="barline"></span></h2>
+    <div class="grid">
+      <div class="item" data-tags="veg curry snacks"><span class="name">Baji Curry</span><span class="tag veg">VEG</span></div>
+      <div class="item" data-tags="veg curry kadala"><span class="name">Kadala Curry</span><span class="tag veg">VEG</span></div>
+      <div class="item" data-tags="nonveg curry fish"><span class="name">Fish Curry</span><span class="tag nonveg">NON-VEG</span></div>
+      <div class="item" data-tags="nonveg curry beef"><span class="name">Beef Curry</span><span class="tag nonveg">NON-VEG</span></div>
+      <div class="item" data-tags="nonveg curry chicken"><span class="name">Chicken Curry</span><span class="tag nonveg">NON-VEG</span></div>
+      <div class="item" data-tags="nonveg curry egg"><span class="name">Egg Roast</span><span class="tag nonveg">NON-VEG</span></div>
+    </div>
+  </section>
+
+  <!-- Chicken Starters -->
+  <section data-section="starters">
+    <h2>Chicken Starters <span class="barline"></span></h2>
+    <div class="grid">
+      <div class="item" data-tags="nonveg chicken starters"><span class="name">Chicken 65</span><span class="tag nonveg">NON-VEG</span></div>
+      <div class="item" data-tags="nonveg chicken starters"><span class="name">Chilli Chicken</span><span class="tag nonveg">NON-VEG</span></div>
+      <div class="item" data-tags="nonveg chicken starters"><span class="name">Chicken Chilli</span><span class="tag nonveg">NON-VEG</span></div>
+      <div class="item" data-tags="nonveg chicken starters"><span class="name">Chicken Kondattam</span><span class="tag nonveg">NON-VEG</span></div>
+      <div class="item" data-tags="nonveg chicken starters"><span class="name">Pepper Chicken</span><span class="tag nonveg">NON-VEG</span></div>
+    </div>
+  </section>
+
+  <!-- Beef -->
+  <section data-section="beef">
+    <h2>Beef Specials <span class="barline"></span></h2>
+    <div class="grid">
+      <div class="item" data-tags="nonveg beef fry"><span class="name">Beef Fry</span><span class="tag nonveg">NON-VEG</span></div>
+      <div class="item" data-tags="nonveg beef masala"><span class="name">Beef Masala</span><span class="tag nonveg">NON-VEG</span></div>
+      <div class="item" data-tags="nonveg beef pepper"><span class="name">Pepper Beef</span><span class="tag nonveg">NON-VEG</span></div>
+    </div>
+  </section>
+
+  <!-- Combos -->
+  <section data-section="combos">
+    <h2>Combos <span class="barline"></span></h2>
+    <div class="grid">
+      <div class="item" data-tags="nonveg combo kappa beef"><span class="name">Kappa + Beef Combo</span><span class="tag nonveg">NON-VEG</span></div>
+      <div class="item" data-tags="nonveg combo kappa fish"><span class="name">Kappa + Fish Curry Combo</span><span class="tag nonveg">NON-VEG</span></div>
+      <div class="item" data-tags="nonveg combo porota fish"><span class="name">Porota + Fish Curry Combo</span><span class="tag nonveg">NON-VEG</span></div>
+      <div class="item" data-tags="nonveg combo porota beef"><span class="name">Porota + Beef Combo</span><span class="tag nonveg">NON-VEG</span></div>
+      <div class="item" data-tags="nonveg combo pazhampori beef"><span class="name">Pazhampori + Beef Combo</span><span class="tag nonveg">NON-VEG</span></div>
+    </div>
+  </section>
+
+  <!-- Specials -->
+  <section data-section="specials">
+    <h2>Specials <span class="barline"></span></h2>
+    <div class="grid">
+      <div class="item" data-tags="veg nonveg rice specials"><span class="name">Fried Rice (Veg / Egg / Chicken / Mix)</span><span class="tag">SPECIAL</span></div>
+      <div class="item" data-tags="snacks fries"><span class="name">Loaded Fries</span><span class="tag">SNACK</span></div>
+      <div class="item" data-tags="nonveg porota specials"><span class="name">Spanish Porota</span><span class="tag">SPECIAL</span></div>
+      <div class="item" data-tags="nonveg porota specials"><span class="name">Kizhi Porota</span><span class="tag">SPECIAL</span></div>
+      <div class="item" data-tags="nonveg porota specials"><span class="name">Kothu Porota</span><span class="tag">SPECIAL</span></div>
+      <div class="item" data-tags="snacks arabic"><span class="name">Qulb Nirachath (Evening Snacks)</span><span class="tag">SNACK</span></div>
+    </div>
+  </section>
+
+  <!-- Fast Bites -->
+  <section data-section="snacks">
+    <h2>Fast Bites <span class="barline"></span></h2>
+    <div class="grid">
+      <div class="item" data-tags="nonveg snacks momos"><span class="name">Chicken Momos</span><span class="tag nonveg">NON-VEG</span></div>
+      <div class="item" data-tags="nonveg snacks"><span class="name">Chicken Nuggets</span><span class="tag nonveg">NON-VEG</span></div>
+      <div class="item" data-tags="nonveg snacks bun"><span class="name">Chicken Filled Bun</span><span class="tag nonveg">NON-VEG</span></div>
+      <div class="item" data-tags="nonveg snacks"><span class="name">Chicken Lays Loaded</span><span class="tag nonveg">NON-VEG</span></div>
+      <div class="item" data-tags="nonveg snacks bun"><span class="name">Chicken Cheesy Bun</span><span class="tag nonveg">NON-VEG</span></div>
+      <div class="item" data-tags="nonveg snacks burger"><span class="name">Chicken Burger</span><span class="tag nonveg">NON-VEG</span></div>
+      <div class="item" data-tags="nonveg snacks sandwich"><span class="name">Chicken Sandwich</span><span class="tag nonveg">NON-VEG</span></div>
+      <div class="item" data-tags="nonveg snacks shawarma"><span class="name">Chicken Pocket Shawarma</span><span class="tag nonveg">NON-VEG</span></div>
+    </div>
+  </section>
+
+  <!-- Hot Drinks -->
+  <section data-section="drinks">
+    <h2>Hot Drinks 🔥 <span class="barline"></span></h2>
+    <div class="grid">
+      <div class="item" data-tags="drinks hot tea"><span class="name">Tea (Evening Snacks)</span><span class="tag">HOT</span></div>
+      <div class="item" data-tags="drinks hot coffee"><span class="name">Coffee</span><span class="tag">HOT</span></div>
+      <div class="item" data-tags="drinks hot"><span class="name">Boost</span><span class="tag">HOT</span></div>
+      <div class="item" data-tags="drinks hot"><span class="name">Horlicks</span><span class="tag">HOT</span></div>
+      <div class="item" data-tags="drinks hot tea"><span class="name">Black Tea</span><span class="tag">HOT</span></div>
+      <div class="item" data-tags="drinks hot tea"><span class="name">Lime Tea</span><span class="tag">HOT</span></div>
+      <div class="item" data-tags="drinks hot coffee"><span class="name">Black Coffee</span><span class="tag">HOT</span></div>
+      <div class="item" data-tags="drinks hot coffee"><span class="name">Chukku Coffee</span><span class="tag">HOT</span></div>
+    </div>
+  </section>
+
+  <!-- Cold Juices & Shakes -->
+  <section data-section="drinks">
+    <h2>Cold Juices ❄️ <span class="barline"></span></h2>
+    <div class="grid">
+      <div class="item" data-tags="drinks cold juice"><span class="name">Fresh Lime</span><span class="tag">COLD</span></div>
+      <div class="item" data-tags="drinks cold juice citrus"><span class="name">Citrus Juice</span><span class="tag">COLD</span></div>
+      <div class="item" data-tags="drinks cold juice"><span class="name">Orange / Apple / Anar / Watermelon / Pineapple Juice</span><span class="tag">COLD</span></div>
+      <div class="item" data-tags="drinks cold shake"><span class="name">Apple / Anar Shake</span><span class="tag">SHAKE</span></div>
+      <div class="item" data-tags="drinks cold shake"><span class="name">Oreo / KitKat / Fantasy Shake</span><span class="tag">SHAKE</span></div>
+      <div class="item" data-tags="drinks cold coffee"><span class="name">Cold Coffee / Cold Boost</span><span class="tag">COLD</span></div>
+    </div>
+  </section>
+
+  <!-- Mojito & Sodas -->
+  <section data-section="drinks">
+    <h2>Mojitos & Variety Sodas 🥤 <span class="barline"></span></h2>
+    <div class="grid">
+      <div class="item" data-tags="drinks mojito"><span class="name">Mojito — Lemon Mint / Green Apple / Passion Fruit / Watermelon / Blue Curacao</span><span class="tag">MOJITO</span></div>
+      <div class="item" data-tags="drinks soda"><span class="name">Bomb Soda</span><span class="tag">SODA</span></div>
+      <div class="item" data-tags="drinks soda"><span class="name">Ginger Soda</span><span class="tag">SODA</span></div>
+      <div class="item" data-tags="drinks soda"><span class="name">Lime Soda</span><span class="tag">SODA</span></div>
+      <div class="item" data-tags="drinks soda"><span class="name">Fuljar Soda</span><span class="tag">SODA</span></div>
+    </div>
+  </section>
+
+  <!-- Falooda -->
+  <section data-section="dessert">
+    <h2>Falooda <span class="barline"></span></h2>
+    <div class="grid">
+      <div class="item" data-tags="dessert falooda"><span class="name">Special Falooda</span><span class="tag">DESSERT</span></div>
+      <div class="item" data-tags="dessert falooda"><span class="name">Royal Falooda</span><span class="tag">DESSERT</span></div>
+      <div class="item" data-tags="dessert falooda"><span class="name">Fresh Fruit Falooda</span><span class="tag">DESSERT</span></div>
+      <div class="item" data-tags="dessert falooda"><span class="name">Rainbow Falooda</span><span class="tag">DESSERT</span></div>
+      <div class="item" data-tags="dessert falooda"><span class="name">Dry Fruits Falooda</span><span class="tag">DESSERT</span></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="note">Prices may vary • Tell us your spice level 🌶️</div>
+    <div>© <span id="y"></span> Illikkal Restaurant • Sulthan Bathery</div>
+  </footer>
+</main>
+
+<script>
+  // Year
+  document.getElementById('y').textContent = new Date().getFullYear();
+
+  // Simple search + chips filter
+  const q = document.getElementById('q');
+  const chips = document.getElementById('chips');
+  let activeFilter = 'all';
+
+  function normalize(s){ return (s||'').toLowerCase().trim(); }
+
+  function applyFilter(){
+    const term = normalize(q.value);
+    document.querySelectorAll('.item').forEach(card=>{
+      const tags = card.dataset.tags || '';
+      const isVeg = card.querySelector('.tag')?.classList.contains('veg');
+      const isNonVeg = card.querySelector('.tag')?.classList.contains('nonveg');
+      const text = (card.textContent || '').toLowerCase();
+
+      let pass = true;
+      if (activeFilter === 'veg') pass = isVeg;
+      else if (activeFilter === 'nonveg') pass = isNonVeg;
+      else if (activeFilter === 'snacks') pass = tags.includes('snacks');
+      else if (activeFilter === 'drinks') pass = tags.includes('drinks');
+      else if (activeFilter === 'specials') pass = tags.includes('special');
+
+      if (term) pass = pass && text.includes(term);
+      card.style.display = pass ? '' : 'none';
+    });
+  }
+
+  q.addEventListener('input', applyFilter);
+
+  chips.addEventListener('click', (e)=>{
+    const btn = e.target.closest('.chip'); if(!btn) return;
+    chips.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.filter || 'all';
+    applyFilter();
+  });
+</script>
+</body>
+</html>
